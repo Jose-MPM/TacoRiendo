@@ -1,0 +1,91 @@
+-- Calcular las ganancias x sucursal
+-- select ganancias(1);
+CREATE OR REPLACE FUNCTION ganancias(int)
+	RETURNS int
+	AS $$
+	DECLARE
+		id int; -- noSucursal		
+		t int; -- total
+	BEGIN
+		id := $1;
+		t := SUM(total) FROM public.ticket WHERE noSucursal = id;		
+		return t;
+	END;
+	$$
+	Language plpgsql;
+
+-- Suma total de todos los tickets expedidos por la sucursal Christiansen Inc ubicada en California
+select sum(t.total), s.nombre
+from sucursal s natural join ticket t
+where s.estado = 'California' and s.nombre='Christiansen Inc'
+group by(s.nombre);
+
+-- Consulta de detalle de los tickets expedidos por la sucursal Christiansen Inc ubicada en California
+select t.*
+from sucursal s natural join ticket t 
+where s.estado = 'California' and s.nombre='Christiansen Inc'
+
+-- Producto mas vendido por cada sucursal
+
+-- Ganancias de las sucursales ubicadas en New York
+select s.noSucursal, ganancias(s.noSucursal), s.nombre
+from sucursal s
+where s.estado = 'New York'
+group by(s.noSucursal, s.nombre)
+order by ganancias desc
+
+-- Información de los tickets que corresponden a alguna mesa atendida durante todo este año en las sucursales 
+-- que se encuentran en el estado de minnesota.
+SELECT p.*, t.*
+FROM pedidoN p LEFT JOIN (sucursal s NATURAL JOIN ticket t) ON p.folio = t.folio
+WHERE UPPER(t.tipo) = 'MESA' AND t.fecha BETWEEN SYMMETRIC '2022-01-01' and current_date AND LOWER(s.estado) = 'minnesota' 
+ORDER BY t.total asc
+
+
+-- varios grupos,
+
+-- El venta más grande heche en todas las sucursales
+SELECT s.noSucursal, to_char(MAX(t.total), 'LFM999,999,999.00') ventaMayor
+FROM ticket t NATURAL JOIN sucursal s
+GROUP BY s.noSucursal
+ORDER BY ventaMayor desc
+
+-- La sucursal que más tacos vendio del sexenio pasado
+-- Mas de 4 operadores y utiliza varios join
+
+-- Ganancias de todas las sucursales ubicadas en New York
+SELECT s.noSucursal, ganancias(s.noSucursal), s.nombre
+FROM sucursal s
+WHERE s.estado = 'New York'
+GROUP BY (s.noSucursal, s.nombre)
+ORDER BY ganancias DESC;
+
+-- Resumen por cada sucursal, la venta más grande, la menor, la venta promedio y el total de ventas junto con el número de tickets
+SELECT s.noSucursal, s.nombre,to_char(MAX(t.total), 'LFM999,999,999.00') "Venta mayor", 
+        to_char(MIN(t.total), 'LFM999,999,999.00') "Venta menor",
+        to_char(AVG(t.total), 'LFM999,999,999.00') "Venta promedio",
+        to_char(sum(t.total), 'LFM999,999,999.00') "Venta total",
+        count(t.folio) "Numero de tickets"
+FROM ticket t NATURAL JOIN sucursal s
+GROUP BY s.noSucursal
+ORDER BY s.noSucursal desc
+
+
+--  Total atendido por cada mesero de todas las sucursales, en el ultimo año, en tipo mesa
+SELECT m.curp,m.nosucursal,count(m.curp) as "Mesas atentidas", extract(year from t.fecha) as año,
+       to_char(sum(t.total),'LFM999,999,999.00') as "Total de las mesas atendidas"
+FROM mesero m JOIN ticket t on m.curp = t.curpmesero and t.tipo = 'mesa' and date_part('year',fecha) = 2022
+GROUP BY m.curp,m.nosucursal, extract(year from t.fecha)
+ORDER BY sum(t.total) DESC
+
+
+SELECT r.curp, s.nosucursal,t.fecha,sum(t.total) as "Total repartido:"
+from (repartidor r natural join pedidod p) natural join sucursal s join ticket t on p.folio=t.folio 
+GROUP BY r.curp, s.nosucursal,t.fecha
+
+-- sucursales con 2 o más repartidores que cuentan con una moto como medio de transporte
+select r.nosucursal,t.tipo,count(t.tipo) as "Repartidores con moto"
+from repartidor r natural join transporte t join sucursal s on s.nosucursal=r.nosucursal and t.tipo='moto'
+group by r.nosucursal,t.tipo
+having count(t.tipo) >= 2
+order by t.tipo DESC
