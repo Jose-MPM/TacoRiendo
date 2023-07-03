@@ -110,7 +110,6 @@ BEGIN
                  SELECT curp FROM taquero UNION
                  SELECT curp FROM tortillero UNION
                  SELECT curp FROM repartidor) LOOP
-            -- curpE := e;
             CALL bono(e);
          -- RETURN NEXT;
    END LOOP;
