@@ -1,9 +1,9 @@
 # :taco: :floppy_disk: Database "Taco Riendo" :floppy_disk: :taco: 
 
-**Taco Riendo" taquerias database, school project of the subject Fundamentals of Databases.**
+**Taco Riendo" taquerias database, school project of the subject Fundamentals of Databases.** The database has several functions, several triggers and some useful procedures for the users.
 
 
-# Docs:
+# :books: Docs: :books:
 
 - [Use Case Specifications.](Docs/CasoDeUso.pdf)
 
@@ -66,6 +66,7 @@ First execute DDL.sql: set of Data Definition Language (DDL) statements to creat
 | ![](Img/DDL-Exe.png) |
 |:---------------------------:|
 | DDL Execution. |
+------
 
 ### Triggers. 
 
@@ -94,6 +95,7 @@ These triggers are used to automate certain tasks and maintain data consistency 
 | ![](Img/Triggers-Exe.png) |
 |:---------------------------:|
 | Triggers Execution. |
+------
 
 ### Funtions content
 
@@ -138,7 +140,7 @@ These functions can be used in a PostgreSQL database to perform queries and oper
 | ![](Img/DML-Exe.png) |
 |:---------------------------:|
 | DML Execution. |
-
+------
 
 ### Some Procedures of "Taco Riendo" Database. :blue_book:
  
@@ -157,6 +159,7 @@ These functions can be used in a PostgreSQL database to perform queries and oper
 - Procedure `dosAnios`: This procedure takes no parameters and iterates over the CURPs of employees in different tables (parrillero, mesero, cajero, taquero, tortillero, repartidor) using a FOR loop. For each CURP, it calls the bono procedure, but the body of the bono procedure is not found in the provided code. The line -- RETURN NEXT; is commented, suggesting that the procedure should return a table.
 
 **It's important to note that the provided code is specific to PostgreSQL and uses the plpgsql extension to define stored procedures.**
+------
 
 ###  Queries Documentation. :bookmark:
 
@@ -181,6 +184,7 @@ These functions can be used in a PostgreSQL database to perform queries and oper
 * Query 13: **Description:** Retrieves the total served by each waiter in all branches, within the last year, for table type.
 * Query 14: **Description:**  Retrieves branches with 2 or more delivery drivers who have a motorcycle as their means of transportation.
 * Query 15: **Description:** Retrieves a summary with the full name, CURP, email, and points of the customer with the highest accumulated points.
+
 
 # :bomb: Team :gun:
 
