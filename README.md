@@ -11,17 +11,23 @@
 
 - Diagrama Entidad-Relación([drawio](Diagramas/RelacionalTacoRiendo.drawio)).
 
-| ![](Img/ERTacoRiendo.png) |
+| ![](Diagramas/ERTacoRiendo.png) |
 |:---------------------------:|
 | Diagrama de nuestra base de datos. |
 
 - Diagrama Relacional([drawio](Diagramas/ERTacoRiendo.drawio)).
 
-| ![](Img/RelacionalTacoRiendo.png) |
+| ![](Diagramas/RelacionalTacoRiendo.png) |
 |:---------------------------:|
 | Diagrama Relacional de nuestra base de datos |
 
-## Versions :star2 
+- [DDL.](SQL/DDL.sql)
+- [DML.](SQL/DML.sql)
+- [Functions.sql](SQL/Functions.sql)
+- [Queries.sql](SQL/Queries.sql)
+- [SP.sql](SQL/SP.sql)
+
+## Versions :star2:
 
 * psql
 ```
